@@ -1,0 +1,451 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="referrer" content="no-referrer">
+<title>AetherVault Store</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap');
+
+*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+body {
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  background: #070b12;
+  color: #e8edf5;
+  min-height: 100vh;
+  line-height: 1.5;
+}
+
+/* HEADER */
+header {
+  background: linear-gradient(135deg, #0d1520 0%, #0a111f 50%, #0d1520 100%);
+  padding: 40px 20px 32px;
+  text-align: center;
+  border-bottom: 1px solid #1a2740;
+  position: relative;
+  overflow: hidden;
+}
+header::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 2px;
+  background: linear-gradient(90deg, transparent, #00e676, #00b0ff, transparent);
+}
+header .logo-wrap {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  margin-bottom: 8px;
+}
+header .logo-wrap img { height: 44px; filter: drop-shadow(0 0 8px rgba(0,230,118,0.3)); }
+header .logo-wrap h1 {
+  font-size: 2em;
+  font-weight: 800;
+  background: linear-gradient(135deg, #00e676, #00c853);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  letter-spacing: -0.5px;
+}
+header p { color: #6b7d99; font-size: 1em; font-weight: 500; }
+header .discord {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: 16px;
+  padding: 10px 28px;
+  background: #5865f2;
+  color: #fff;
+  text-decoration: none;
+  border-radius: 8px;
+  font-weight: 600;
+  font-size: 0.9em;
+  transition: 0.2s;
+}
+header .discord:hover { background: #4752c4; transform: translateY(-1px); }
+
+/* CONTAINER */
+.container { max-width: 960px; margin: 0 auto; padding: 32px 16px; }
+
+/* SECTION TITLE */
+.section-title {
+  font-size: 0.75em;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  color: #3a4a62;
+  margin-bottom: 16px;
+  font-weight: 700;
+}
+
+/* PRODUCTS GRID */
+.products {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 20px;
+}
+
+/* CARD */
+.card {
+  background: #0f1722;
+  border: 1px solid #1a2740;
+  border-radius: 14px;
+  overflow: hidden;
+  transition: 0.25s ease;
+}
+.card:hover {
+  border-color: #00e67644;
+  transform: translateY(-4px);
+  box-shadow: 0 12px 40px rgba(0,0,0,0.4);
+}
+
+/* CARD IMAGE */
+.card-img {
+  height: 180px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: center;
+  position: relative;
+}
+.card-img::after {
+  content: '';
+  position: absolute;
+  bottom: 0; left: 0; right: 0;
+  height: 60%;
+  background: linear-gradient(transparent, #0f1722);
+}
+.card-img > * { z-index: 1; }
+
+/* BADGES */
+.badge {
+  position: absolute;
+  top: 12px;
+  padding: 4px 14px;
+  border-radius: 20px;
+  font-size: 0.7em;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  z-index: 2;
+}
+.badge-sold { right: 12px; background: #ff1744; color: #fff; }
+.badge-rare { left: 12px; background: #ffd700; color: #0b0e14; }
+
+/* CARD BODY */
+.card-body { padding: 16px 18px 18px; }
+.card-body h3 {
+  font-size: 1.15em;
+  font-weight: 700;
+  color: #fff;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.tag {
+  display: inline-block;
+  background: #ffd700;
+  color: #0b0e14;
+  font-size: 0.6em;
+  padding: 2px 8px;
+  border-radius: 4px;
+  font-weight: 700;
+  text-transform: uppercase;
+}
+
+.rarity {
+  color: #ffd700;
+  font-size: 0.85em;
+  margin: 6px 0 10px;
+  font-weight: 600;
+}
+
+/* DETAIL TABLE */
+.details { margin: 10px 0 12px; }
+.detail-row {
+  display: flex;
+  justify-content: space-between;
+  padding: 5px 0;
+  border-bottom: 1px solid #1a2740;
+  font-size: 0.82em;
+}
+.detail-row:last-child { border-bottom: none; }
+.detail-row .label { color: #5a6a82; }
+.detail-row .value { color: #c8d0dc; font-weight: 500; }
+.detail-row .value.green { color: #00e676; }
+
+/* NAMEMC LINK */
+.namemc-link {
+  display: block;
+  text-align: center;
+  margin: 8px 0;
+  color: #6b8af2;
+  font-size: 0.8em;
+  font-weight: 500;
+  text-decoration: none;
+  transition: 0.15s;
+}
+.namemc-link:hover { color: #8ba7ff; }
+
+/* PRICE */
+.price {
+  font-size: 1.6em;
+  font-weight: 800;
+  color: #00e676;
+  margin: 6px 0;
+}
+.price.sold { color: #4a4a5a; text-decoration: line-through; font-weight: 600; font-size: 1.1em; }
+
+/* DESCRIPTION */
+.desc {
+  color: #6b7d99;
+  font-size: 0.85em;
+  line-height: 1.5;
+  margin-bottom: 14px;
+}
+
+/* BUTTONS */
+.btn {
+  display: block;
+  padding: 12px;
+  background: linear-gradient(135deg, #00e676, #00c853);
+  color: #0b0e14;
+  text-decoration: none;
+  border-radius: 8px;
+  font-weight: 700;
+  font-size: 0.9em;
+  text-align: center;
+  transition: 0.2s;
+}
+.btn:hover { transform: translateY(-1px); box-shadow: 0 4px 16px rgba(0,230,118,0.3); }
+.btn-sold {
+  display: block;
+  padding: 12px;
+  background: #1a1a2a;
+  color: #4a4a5a;
+  border: 1px solid #2a2a3a;
+  text-decoration: none;
+  border-radius: 8px;
+  font-weight: 600;
+  font-size: 0.9em;
+  text-align: center;
+  cursor: not-allowed;
+}
+
+/* HOW TO BUY */
+.contacto {
+  margin-top: 40px;
+  background: linear-gradient(135deg, #0f1722, #0d1520);
+  border: 1px solid #1a2740;
+  border-radius: 14px;
+  padding: 32px;
+  text-align: center;
+}
+.contacto h2 {
+  font-size: 1.3em;
+  font-weight: 700;
+  color: #fff;
+  margin-bottom: 20px;
+}
+.steps {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+  gap: 16px;
+  margin-bottom: 24px;
+}
+.step {
+  background: #0b121e;
+  border: 1px solid #1a2740;
+  border-radius: 10px;
+  padding: 16px 12px;
+  text-align: center;
+}
+.step .num {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 28px;
+  height: 28px;
+  background: #00e676;
+  color: #0b0e14;
+  border-radius: 50%;
+  font-weight: 800;
+  font-size: 0.8em;
+  margin-bottom: 8px;
+}
+.step p { color: #6b7d99; font-size: 0.82em; font-weight: 500; }
+.step p span { color: #00e676; }
+
+.contacto .btns { margin-bottom: 16px; }
+.contacto .btns a {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 12px 32px;
+  border-radius: 8px;
+  text-decoration: none;
+  font-weight: 600;
+  font-size: 0.9em;
+  transition: 0.2s;
+}
+.btn-discord { background: #5865f2; color: #fff; }
+.btn-discord:hover { background: #4752c4; transform: translateY(-1px); }
+
+.pay-info {
+  color: #5a6a82;
+  font-size: 0.82em;
+  word-break: break-all;
+  line-height: 1.8;
+}
+.pay-info span { color: #00e676; font-weight: 600; }
+
+/* FOOTER */
+footer {
+  text-align: center;
+  padding: 32px 20px;
+  color: #2a3a52;
+  font-size: 0.8em;
+  font-weight: 500;
+  border-top: 1px solid #0f1722;
+  margin-top: 20px;
+}
+
+@media (max-width: 600px) {
+  header .logo-wrap img { height: 36px; }
+  header .logo-wrap h1 { font-size: 1.5em; }
+  .steps { grid-template-columns: repeat(2, 1fr); }
+  .contacto { padding: 24px 16px; }
+}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="logo-wrap">
+    <img src="logo.png" alt="AetherVault">
+    <h1>AetherVault</h1>
+  </div>
+  <p>Original accounts — GTA V • Minecraft • Roblox</p>
+  <a class="discord" href="https://discord.gg/qXmmZSp7" target="_blank">💬 Discord</a>
+</header>
+
+<div class="container">
+
+<div class="section-title">Available Accounts</div>
+
+<div class="products">
+
+  <!-- GTA V - SOLD -->
+  <div class="card">
+    <div class="card-img" style="background-image: url('https://upload.wikimedia.org/wikipedia/en/a/a5/Grand_Theft_Auto_V.png'); background-color: #0d0d0d;">
+      <div class="badge badge-sold">Sold</div>
+    </div>
+    <div class="card-body">
+      <h3>GTA V Modded</h3>
+      <div class="price sold">$25</div>
+      <div class="desc">Modded cars, money and outfits.</div>
+      <div class="btn-sold">❌ Sold</div>
+    </div>
+  </div>
+
+  <!-- MINECRAFT 59wo -->
+  <div class="card">
+    <div class="card-img" style="background-image: url('https://logos-world.net/wp-content/uploads/2020/05/Minecraft-Logo.png'); background-color: #1a3a1a;">
+      <div class="badge badge-rare">Rare</div>
+    </div>
+    <div class="card-body">
+      <h3>Minecraft Java <span class="tag">4 Letters</span></h3>
+      <div class="rarity">👑 59wo</div>
+      <div class="details">
+        <div class="detail-row"><span class="label">Username</span><span class="value">59wo</span></div>
+        <div class="detail-row"><span class="label">Length</span><span class="value">4 letters</span></div>
+        <div class="detail-row"><span class="label">Capes</span><span class="value">✅ Included</span></div>
+        <div class="detail-row"><span class="label">Edition</span><span class="value">Java Edition</span></div>
+        <div class="detail-row"><span class="label">Status</span><span class="value green">Available</span></div>
+        <div class="detail-row"><span class="label">Migration</span><span class="value">Microsoft account</span></div>
+      </div>
+      <a class="namemc-link" href="https://namemc.com/profile/59wo.1" target="_blank">🔍 View on NameMC</a>
+      <div class="price">$12</div>
+      <div class="desc">Original Java account with 5-letter name "59wo" and capes.</div>
+      <a class="btn" href="https://discord.gg/qXmmZSp7" target="_blank">💬 Buy</a>
+    </div>
+  </div>
+
+  <!-- ROBLOX 5L -->
+  <div class="card">
+    <div class="card-img" style="background-image: url('https://logos-world.net/wp-content/uploads/2020/11/Roblox-Logo.png'); background-color: #1a1a3a;">
+    </div>
+    <div class="card-body">
+      <h3>Roblox 5L <span class="tag">5 Letters</span></h3>
+      <div class="price">$2</div>
+      <div class="details">
+        <div class="detail-row"><span class="label">Type</span><span class="value">Username ⚠⚠⚠ letters</span></div>
+        <div class="detail-row"><span class="label">Letters</span><span class="value">5 random</span></div>
+        <div class="detail-row"><span class="label">Stock</span><span class="value green">Multiple</span></div>
+      </div>
+      <div class="desc">Random 5-letter usernames. Ask on Discord.</div>
+      <a class="btn" href="https://discord.gg/qXmmZSp7" target="_blank">💬 Ask</a>
+    </div>
+  </div>
+
+  <!-- AETHER SNIPER -->
+  <div class="card">
+    <div class="card-img" style="background: linear-gradient(135deg, #0a0a1a 0%, #1a0a2a 50%, #0a1a2a 100%);">
+      <span style="font-size: 3em; opacity: 0.6;">🎯</span>
+    </div>
+    <div class="card-body">
+      <h3>AetherSniperV1 <span class="tag">Tool</span></h3>
+      <div class="price">$5</div>
+      <div class="details">
+        <div class="detail-row"><span class="label">Roblox</span><span class="value green">✅</span></div>
+        <div class="detail-row"><span class="label">TikTok</span><span class="value green">✅</span></div>
+        <div class="detail-row"><span class="label">Guns.lol</span><span class="value green">✅</span></div>
+        <div class="detail-row"><span class="label">Minecraft</span><span class="value green">✅</span></div>
+      </div>
+      <div class="desc">Username sniper tool. Snipes names on Roblox, TikTok, Guns.lol & Minecraft. One-time purchase, lifetime updates.</div>
+      <a class="btn" href="https://discord.gg/qXmmZSp7" target="_blank">💬 Buy</a>
+    </div>
+  </div>
+
+</div>
+
+<div class="contacto">
+  <h2>🛒 How to Buy</h2>
+  <div class="steps">
+    <div class="step">
+      <div class="num">1</div>
+      <p>Contact me on <span>Discord</span></p>
+    </div>
+    <div class="step">
+      <div class="num">2</div>
+      <p>Choose an <span>account</span></p>
+    </div>
+    <div class="step">
+      <div class="num">3</div>
+      <p>Pay with <span>LTC</span> / PayPal</p>
+    </div>
+    <div class="step">
+      <div class="num">4</div>
+      <p>Get details <span>instantly</span></p>
+    </div>
+  </div>
+  <div class="btns">
+    <a class="btn-discord" href="https://discord.gg/qXmmZSp7" target="_blank">💬 Open Discord</a>
+  </div>
+  <div class="pay-info">
+    💰 LTC: <span>LWFymNLW3SuuWprfF7X2xSTESMqrrK77Un</span><br>
+    🔷 PayPal: ask on Discord
+  </div>
+</div>
+
+</div>
+
+<footer>AetherVault Store</footer>
+</body>
+</html>
