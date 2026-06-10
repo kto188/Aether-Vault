@@ -1,0 +1,3 @@
+User-agent: *
+Allow: /
+Sitemap: https://kto188.github.io/Aether-Vault/sitemap.xml
